@@ -1,1 +1,2 @@
-protobuf==3.17.3
+protobuf==3.11.4
+zlib

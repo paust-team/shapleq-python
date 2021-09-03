@@ -1,0 +1,230 @@
+syntax = "proto3";
+package shapleq.proto;
+import "data.proto";
+
+// Config
+message SetConfigRequest {
+    int32 magic = 1;
+    bytes config = 2;
+}
+
+message SetConfigResponse {
+    int32 magic = 1;
+    bytes config = 2;
+    int32 error_code = 3;
+    string error_message = 4;
+}
+
+message AlterConfigRequest {
+    int32 magic = 1;
+    bytes config = 2;
+}
+
+message AlterConfigResponse {
+    int32 magic = 1;
+    bytes config = 2;
+    int32 error_code = 3;
+    string error_message = 4;
+}
+
+message ShowConfigRequest {
+    int32 magic = 1;
+}
+
+message ShowConfigResponse {
+    int32 magic = 1;
+    bytes config = 2;
+    int32 error_code = 3;
+    string error_message = 4;
+}
+
+message ListTopicRequest {
+    int32 magic = 1;
+}
+
+message ListTopicResponse {
+    int32 magic = 1;
+    repeated string topics = 2;
+    int32 error_code = 3;
+    string error_message = 4;
+}
+
+message DescribeTopicRequest {
+    int32 magic = 1;
+    string topic_name = 2;
+}
+
+message DescribeTopicResponse {
+    int32 magic = 1;
+    Topic topic = 2;
+    int32 error_code = 3;
+    string error_message = 4;
+}
+
+message CreateTopicRequest {
+    int32 magic = 1;
+    Topic topic = 2;
+}
+
+message CreateTopicResponse {
+    int32 magic = 1;
+    int32 error_code = 2;
+    string error_message = 3;
+}
+
+message DeleteTopicRequest {
+    int32 magic = 1;
+    string topic_name = 2;
+}
+
+message DeleteTopicResponse {
+    int32 magic = 1;
+    int32 error_code = 2;
+    string error_message = 3;
+}
+
+// partition
+message CreatePartitionRequest {
+    int32 magic = 1;
+    string topic_name = 2;
+    uint32 count = 3;
+}
+
+message CreatePartitionResponse {
+    int32 magic = 1;
+    Partition partition = 2;
+    int32 error_code = 3;
+    string error_message = 4;
+}
+
+// group
+message CreateGroupRequest {
+    int32 magic = 1;
+    string group_name = 2;
+    string description = 3;
+}
+
+message CreateGroupResponse {
+    int32 magic = 1;
+    Group group = 2;
+    int32 error_code = 3;
+    string error_message = 4;
+}
+
+message ListGroupsRequest {
+    int32 magic = 1;
+}
+
+message ListGroupsResponse {
+    int32 magic = 1;
+    repeated Group group = 2;
+    int32 error_code = 3;
+    string error_message = 4;
+}
+
+// Consumer can join only one group
+message JoinGroupRequest {
+    int32 magic = 1;
+    uint64 group_id = 2;
+}
+
+message JoinGroupResponse {
+    int32 magic = 1;
+    int32 error_code = 2;
+    string error_message = 3;
+}
+
+message LeaveGroupRequest {
+    int32 magic = 1;
+    uint64 group_id = 2;
+}
+
+message LeaveGroupResponse {
+    int32 magic = 1;
+    int32 error_code = 2;
+    string error_message = 3;
+}
+
+// Note:: Only group owner can delete group
+message DeleteGroupRequest {
+    int32 magic = 1;
+    uint64 group_id = 2;
+}
+
+message DeleteGroupResponse {
+    int32 magic = 1;
+    int32 error_code = 2;
+    string error_message = 3;
+}
+
+message DiscoverBrokerRequest {
+    int32 magic = 1;
+    string topic_name = 2;
+    SessionType session_type = 3;
+}
+
+message DiscoverBrokerResponse {
+    int32 magic = 1;
+    string address = 2;
+    int32 error_code = 3;
+    string error_message = 4;
+}
+
+// connection
+
+message ConnectRequest {
+    int32 magic = 1;
+    SessionType session_type = 2;
+    string topic_name = 3;
+}
+
+message ConnectResponse {
+    int32 magic = 1;
+}
+
+message Ping {
+    int32 magic = 1;
+    string echo = 2;
+    uint64 broker_id = 3;
+}
+
+message Pong {
+    int32 magic = 1;
+    string echo = 2;
+    uint32 server_version = 3;
+    uint64 server_time = 4; //nanosec
+}
+
+message PutRequest {
+    int32 magic = 1;
+    bytes data = 2;
+}
+
+message PutResponse {
+    int32 magic = 1;
+    Partition partition = 2;
+}
+
+message FetchRequest {
+    int32 magic = 1;
+    uint64 start_offset = 2;
+}
+
+message FetchResponse {
+    int32 magic = 1;
+    bytes data = 2;
+    Partition partition = 3;
+    uint64 last_offset = 4;
+    uint64 offset = 5;
+    bool publishing = 6;
+}
+
+message Ack {
+    int32 magic = 1;
+    uint32 code = 2;
+    string msg = 3;
+}
+
+message Close {
+    int32 magic = 1;
+}
