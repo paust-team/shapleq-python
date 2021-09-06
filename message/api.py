@@ -29,7 +29,7 @@ def create_topic_msg(topic_name: str, description: str, num_partitions: int, rep
 
     msg = api_pb2.CreateTopicRequest()
     msg.magic = MAGIC_NUM
-    msg.topic = topic
+    msg.topic.CopyFrom(topic)
 
     return msg
 
@@ -85,7 +85,7 @@ def ack_msg(code: int, text: str) -> api_pb2.Ack:
     return msg
 
 
-def discover_broker(topic_name: str, session_type: data_pb2.SessionType) -> api_pb2.DiscoverBrokerRequest:
+def discover_broker_msg(topic_name: str, session_type: data_pb2.SessionType) -> api_pb2.DiscoverBrokerRequest:
     msg = api_pb2.DiscoverBrokerRequest()
     msg.magic = MAGIC_NUM
     msg.topic_name = topic_name
