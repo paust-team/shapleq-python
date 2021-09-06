@@ -31,6 +31,4 @@ class QMessageTest(unittest.TestCase):
         self.assertEqual(expected.msg, actual.msg)
 
         fake = Ping()
-        actual_msg.unpack_to(fake)
-        with self.assertRaises(MessageDecodeError):
-            actual_msg.unpack_to(fake)
+        self.assertIsNone(actual_msg.unpack_to(fake))
