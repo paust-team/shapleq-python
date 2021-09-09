@@ -64,7 +64,7 @@ class QMessage:
     def is_same_msg(self, msg: message.Message) -> bool:
         return msg.SerializeToString() == self._data.hex()
 
-    def unpack_to(self, msg: message.Message):
+    def unpack_to(self, msg: message.Message) -> message.Message:
         try:
             any_pb = any_pb2.Any()
             any_pb.ParseFromString(self._data)
@@ -72,8 +72,7 @@ class QMessage:
         except message.DecodeError as err:
             raise MessageDecodeError(msg=err)
 
-        if any_pb.Unpack(msg) is False:
-            raise MessageDecodeError(msg="cannot unpack to message")
+        return msg if any_pb.Unpack(msg) else None
 
 
 def make_qmessage_from_buffer(buf: bytes) -> QMessage:
