@@ -68,10 +68,12 @@ def put_msg(data: bytes) -> api_pb2.PutRequest:
     return msg
 
 
-def fetch_msg(start_offset: int) -> api_pb2.FetchRequest:
+def fetch_msg(start_offset: int, max_batch_size: int, flush_interval: int) -> api_pb2.FetchRequest:
     msg = api_pb2.FetchRequest()
     msg.magic = MAGIC_NUM
     msg.start_offset = start_offset
+    msg.max_batch_size = max_batch_size
+    msg.flush_interval = flush_interval
 
     return msg
 

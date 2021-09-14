@@ -2,23 +2,23 @@ import logging
 from client import ClientBase, QConfig
 from exception import InvalidMessageError, SocketClosedError
 from proto.data_pb2 import SessionType
-from proto.api_pb2 import FetchResponse, Ack
-from typing import Generator
+from proto.api_pb2 import FetchResponse, Ack, BatchFetchResponse
+from typing import Generator, Iterable
 from message.qmessage import QMessage, MessageType, make_qmessage_from_proto
 from message.api import fetch_msg
 
 
 class FetchedData:
-    _data: bytes
+    _data: Iterable[bytes]
     _offset: int
     _last_offset: int
 
-    def __init__(self, data: bytes, offset: int, last_offset: int):
+    def __init__(self, data: Iterable[bytes], offset: int, last_offset: int):
         self._data = data
         self._offset = offset
         self._last_offset = last_offset
 
-    def get_data(self) -> bytes:
+    def get_data(self) -> Iterable[bytes]:
         return self._data
 
 
@@ -35,12 +35,12 @@ class Consumer(ClientBase):
     def terminate(self):
         self.close()
 
-    def subscribe(self, start_offset: int) -> Generator[FetchedData, None, None]:
+    def subscribe(self, start_offset: int, max_batch_size: int = 1, flush_interval: int = 100) -> Generator[FetchedData, None, None]:
         if not self.is_connected():
             raise SocketClosedError()
 
         try:
-            msg = make_qmessage_from_proto(MessageType.STREAM, fetch_msg(start_offset))
+            msg = make_qmessage_from_proto(MessageType.STREAM, fetch_msg(start_offset, max_batch_size, flush_interval))
             self._send_message(msg)
             for received in self.continuous_receive():
                 yield self._handle_message(received)
@@ -52,9 +52,15 @@ class Consumer(ClientBase):
         if (fetch_response := msg.unpack_to(FetchResponse())) is not None:
             logging.debug('received response - data: {}, last offset: {}, offset: {}'.format(
                 fetch_response.data, fetch_response.last_offset, fetch_response.offset))
-            return FetchedData(data=fetch_response.data,
+            return FetchedData(data=[fetch_response.data],
                                offset=fetch_response.offset,
                                last_offset=fetch_response.last_offset)
+        elif (batch_fetch_response := msg.unpack_to(BatchFetchResponse())) is not None:
+            logging.debug('received response - batched data: {}, last offset: {}'.format(
+                batch_fetch_response.batched, batch_fetch_response.last_offset))
+            return FetchedData(data=batch_fetch_response.batched,
+                               last_offset=batch_fetch_response.last_offset,
+                               offset=0)
         elif (ack := msg.unpack_to(Ack())) is not None:
             raise InvalidMessageError(msg=ack.msg)
         else:

@@ -77,7 +77,8 @@ class StreamTest(unittest.TestCase):
         producer_thread.start()
 
         for fetched_data in consumer.subscribe(0):
-            actual_records.append(fetched_data.get_data())
+            for data in fetched_data.get_data():
+                actual_records.append(data)
             if len(actual_records) == len(expected_records):
                 break
 
@@ -89,3 +90,40 @@ class StreamTest(unittest.TestCase):
         producer.close()
         consumer.close()
 
+    def test_batch_fetch(self):
+        topic = "test_topic_3"
+        expected_records = [b'google', b'paust', b'123456',
+                            b'google2', b'paust2', b'1234562',
+                            b'google3', b'paust3', b'1234563',
+                            b'google4', b'paust4', b'1234564']
+        actual_records = []
+
+        self.create_topic(topic)
+
+        producer = Producer(self.config, topic)
+        producer.setup()
+
+        consumer = Consumer(self.config, topic)
+        consumer.setup()
+
+        def publish():
+            time.sleep(1)
+            for record in expected_records:
+                producer.publish(record)
+
+        producer_thread = threading.Thread(target=publish)
+        producer_thread.start()
+
+        for fetched_data in consumer.subscribe(0, max_batch_size=3, flush_interval=200):
+            for data in fetched_data.get_data():
+                actual_records.append(data)
+            if len(actual_records) == len(expected_records):
+                break
+
+        producer_thread.join()
+
+        for index, data in enumerate(actual_records):
+            self.assertEqual(data, expected_records[index])
+
+        producer.close()
+        consumer.close()
