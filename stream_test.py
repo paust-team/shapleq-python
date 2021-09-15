@@ -77,7 +77,7 @@ class StreamTest(unittest.TestCase):
         producer_thread.start()
 
         for fetched_data in consumer.subscribe(0):
-            for data in fetched_data.get_data():
+            for data in fetched_data.data:
                 actual_records.append(data)
             if len(actual_records) == len(expected_records):
                 break
@@ -115,7 +115,7 @@ class StreamTest(unittest.TestCase):
         producer_thread.start()
 
         for fetched_data in consumer.subscribe(0, max_batch_size=3, flush_interval=200):
-            for data in fetched_data.get_data():
+            for data in fetched_data.data:
                 actual_records.append(data)
             if len(actual_records) == len(expected_records):
                 break

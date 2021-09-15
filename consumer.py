@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import logging
 from client import ClientBase, QConfig
 from exception import InvalidMessageError, SocketClosedError
@@ -8,18 +9,11 @@ from message.qmessage import QMessage, MessageType, make_qmessage_from_proto
 from message.api import fetch_msg
 
 
+@dataclass
 class FetchedData:
-    _data: Iterable[bytes]
-    _offset: int
-    _last_offset: int
-
-    def __init__(self, data: Iterable[bytes], offset: int, last_offset: int):
-        self._data = data
-        self._offset = offset
-        self._last_offset = last_offset
-
-    def get_data(self) -> Iterable[bytes]:
-        return self._data
+    data: Iterable[bytes]
+    offset: int
+    last_offset: int
 
 
 class Consumer(ClientBase):
