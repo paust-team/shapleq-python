@@ -20,7 +20,7 @@ class Consumer(ClientBase):
     topic: str
 
     def __init__(self, config: QConfig, topic: str):
-        super().__init__(config)
+        super().__init__("ShapleQ-Consumer", config)
         self.topic = topic
 
     def setup(self):
@@ -44,13 +44,13 @@ class Consumer(ClientBase):
     def _handle_message(self, msg: QMessage) -> FetchedData:
 
         if (fetch_response := msg.unpack_to(FetchResponse())) is not None:
-            logging.debug('received response - data: {}, last offset: {}, offset: {}'.format(
+            self.logger.debug('received response - data: {}, last offset: {}, offset: {}'.format(
                 fetch_response.data, fetch_response.last_offset, fetch_response.offset))
             return FetchedData(data=[fetch_response.data],
                                offset=fetch_response.offset,
                                last_offset=fetch_response.last_offset)
         elif (batch_fetch_response := msg.unpack_to(BatchFetchResponse())) is not None:
-            logging.debug('received response - batched data: {}, last offset: {}'.format(
+            self.logger.debug('received response - batched data: {}, last offset: {}'.format(
                 batch_fetch_response.batched, batch_fetch_response.last_offset))
             return FetchedData(data=batch_fetch_response.batched,
                                last_offset=batch_fetch_response.last_offset,

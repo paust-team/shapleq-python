@@ -34,9 +34,11 @@ class QConfig:
 class ClientBase:
     connected: bool = False
     config: QConfig
+    logger: logging.Logger
     _sock: socket.socket
 
-    def __init__(self, config: QConfig):
+    def __init__(self, name: str, config: QConfig):
+        self.logger = logging.getLogger(name)
         self.config = config
 
     def is_connected(self) -> bool:
@@ -51,7 +53,7 @@ class ClientBase:
         try:
             self._sock.connect((address, port))
             self.connected = True
-            logging.info('connected to broker target {}:{}'.format(address, port))
+            self.logger.info('connected to broker target {}:{}'.format(address, port))
 
         except socket.timeout:
             raise ClientConnectionError("cannot connect to broker : timeout")
@@ -59,7 +61,7 @@ class ClientBase:
     def _send_message(self, msg: QMessage):
         if self._sock.send(msg.serialize()) <= 0:
             raise SocketWriteError()
-        logging.info('sent data successfully')
+        self.logger.info('sent data successfully')
 
     def _read_message(self) -> QMessage:
         while True:
@@ -70,13 +72,13 @@ class ClientBase:
                 received = self._sock.recv(4 * 1024)
                 if not received:
                     raise SocketReadError()
-                logging.info('read data successfully')
+                self.logger.info('read data successfully')
 
                 return make_qmessage_from_buffer(received)
             except NotEnoughBufferError:
                 continue
             except socket.error as msg:
-                logging.error(msg)
+                self.logger.error(msg)
                 raise SocketReadError(msg)
 
     def continuous_receive(self) -> Generator[QMessage, None, None]:
@@ -93,10 +95,10 @@ class ClientBase:
             except socket.error as msg:
                 if not self.is_connected():
                     break
-                logging.error(msg)
+                self.logger.error(msg)
                 raise SocketReadError(msg)
 
-            logging.info('received data')
+            self.logger.info('received data')
             msg_buf = bytearray(received)
 
             # unmarshal QMessages from received buffer
@@ -123,7 +125,7 @@ class ClientBase:
         if received.unpack_to(connect_response) is None:
             raise MessageDecodeError(msg="cannot unpack to `ConnectResponse`")
 
-        logging.info('stream initialized')
+        self.logger.info('stream initialized')
 
     def connect(self, session_type: SessionType, topic: str):
         if len(topic) == 0:
@@ -148,6 +150,6 @@ class ClientBase:
         self._init_stream(session_type, topic)
 
     def close(self):
-        self._sock.close()
         self.connected = False
-        logging.info('connection closed')
+        self._sock.close()
+        self.logger.info('connection closed')

@@ -1,3 +1,2 @@
-protobuf==3.11.4
-zlib
+protobuf==3.12.4
 kazoo

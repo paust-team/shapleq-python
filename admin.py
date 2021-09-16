@@ -13,7 +13,7 @@ from typing import List
 class Admin(ClientBase):
 
     def __init__(self, config: QConfig):
-        super().__init__(config)
+        super().__init__("ShapleQ-AdminClient", config)
 
     def setup(self):
         self._connect_to_broker(self.config.get_broker_address(), self.config.get_broker_port())
@@ -32,7 +32,7 @@ class Admin(ClientBase):
             raise MessageDecodeError(msg="cannot unpack to `CreateTopicResponse`")
 
         if response.error_code != PQErrCode.Success.value:
-            logging.error(response.error_message)
+            self.logger.error(response.error_message)
             raise RequestFailedError(msg=response.error_message)
 
     def delete_topic(self, topic_name: str):
@@ -45,7 +45,7 @@ class Admin(ClientBase):
             raise MessageDecodeError(msg="cannot unpack to `DeleteTopicResponse`")
 
         if response.error_code != PQErrCode.Success.value:
-            logging.error(response.error_message)
+            self.logger.error(response.error_message)
             raise RequestFailedError(msg=response.error_message)
 
     def describe_topic(self, topic_name: str) -> Topic:
@@ -58,7 +58,7 @@ class Admin(ClientBase):
             raise MessageDecodeError(msg="cannot unpack to `DescribeTopicResponse`")
 
         if response.error_code != PQErrCode.Success.value:
-            logging.error(response.error_message)
+            self.logger.error(response.error_message)
             raise RequestFailedError(msg=response.error_message)
 
         return response.topic
@@ -73,7 +73,7 @@ class Admin(ClientBase):
             raise MessageDecodeError(msg="cannot unpack to `ListTopicResponse`")
 
         if response.error_code != PQErrCode.Success.value:
-            logging.error(response.error_message)
+            self.logger.error(response.error_message)
             raise RequestFailedError(msg=response.error_message)
 
         return response.topics

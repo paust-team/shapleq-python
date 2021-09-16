@@ -12,7 +12,7 @@ class Producer(ClientBase):
     topic: str
 
     def __init__(self, config: QConfig, topic: str):
-        super().__init__(config)
+        super().__init__("ShapleQ-Producer", config)
         self.topic = topic
 
     def setup(self):
@@ -40,7 +40,7 @@ class Producer(ClientBase):
     def _handle_message(self, msg: QMessage):
 
         if (put_response := msg.unpack_to(PutResponse())) is not None:
-            logging.debug('received response - partition id: {}, partition offset: {}'.format(
+            self.logger.debug('received response - partition id: {}, partition offset: {}'.format(
                 put_response.partition.partition_id, put_response.partition.offset))
 
         elif (ack := msg.unpack_to(Ack())) is not None:
