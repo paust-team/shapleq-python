@@ -1,10 +1,10 @@
 import socket
-from proto.data_pb2 import SessionType
-from proto.api_pb2 import DiscoverBrokerResponse,  ConnectResponse
-from exception import *
-from message.qmessage import *
-from message.api import discover_broker_msg, connect_msg
-from error import PQErrCode
+from shapleqclient.proto.data_pb2 import SessionType
+from shapleqclient.proto.api_pb2 import DiscoverBrokerResponse,  ConnectResponse
+from shapleqclient.common.exception import *
+from shapleqclient.message.qmessage import *
+from shapleqclient.message.api import discover_broker_msg, connect_msg
+from shapleqclient.common.error import PQErrCode
 from typing import Generator
 import logging
 

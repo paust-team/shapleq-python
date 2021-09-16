@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from struct import pack, unpack, calcsize
 from google.protobuf import message, any_pb2
-from exception import NotEnoughBufferError, InvalidChecksumError, MessageDecodeError
+from shapleqclient.common.exception import NotEnoughBufferError, InvalidChecksumError, MessageDecodeError
 from enum import Enum
 import zlib
 

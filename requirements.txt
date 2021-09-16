@@ -1,2 +1,2 @@
 protobuf==3.12.4
-kazoo
+kazoo==2.8.0

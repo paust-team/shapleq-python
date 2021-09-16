@@ -1,12 +1,14 @@
-import unittest
-from kazoo.client import KazooClient
-from message.qmessage import QMessage
-from client import QConfig
-from admin import Admin
-from consumer import Consumer
-from producer import Producer
-import threading, time
 import logging
+import threading
+import time
+import unittest
+
+from kazoo.client import KazooClient
+
+from shapleqclient.admin import Admin
+from shapleqclient.base import QConfig
+from shapleqclient.consumer import Consumer
+from shapleqclient.producer import Producer
 
 
 class StreamTest(unittest.TestCase):

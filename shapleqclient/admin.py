@@ -1,12 +1,10 @@
-import logging
-from client import ClientBase, QConfig
-from proto.data_pb2 import SessionType
-from message.qmessage import QMessage, MessageType, make_qmessage_from_proto
-from message.api import create_topic_msg, delete_topic_msg, describe_topic_msg, list_topic_msg, ping_msg
-from proto.api_pb2 import CreateTopicResponse, DeleteTopicResponse, ListTopicResponse, DescribeTopicResponse, Pong
-from proto.data_pb2 import Topic
-from exception import MessageDecodeError, RequestFailedError
-from error import PQErrCode
+from shapleqclient.base import ClientBase, QConfig
+from shapleqclient.message.qmessage import MessageType, make_qmessage_from_proto
+from shapleqclient.message.api import create_topic_msg, delete_topic_msg, describe_topic_msg, list_topic_msg, ping_msg
+from shapleqclient.proto.api_pb2 import CreateTopicResponse, DeleteTopicResponse, ListTopicResponse, DescribeTopicResponse, Pong
+from shapleqclient.proto.data_pb2 import Topic
+from shapleqclient.common.exception import MessageDecodeError, RequestFailedError
+from shapleqclient.common.error import PQErrCode
 from typing import List
 
 

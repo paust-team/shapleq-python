@@ -1,11 +1,10 @@
-import logging
 import threading
-from client import ClientBase, QConfig
-from exception import InvalidMessageError, SocketClosedError
-from proto.api_pb2 import PutResponse, Ack
-from proto.data_pb2 import SessionType
-from message.qmessage import QMessage, MessageType, make_qmessage_from_proto
-from message.api import put_msg
+from shapleqclient.base import ClientBase, QConfig
+from shapleqclient.common.exception import InvalidMessageError, SocketClosedError
+from shapleqclient.proto.api_pb2 import PutResponse, Ack
+from shapleqclient.proto.data_pb2 import SessionType
+from shapleqclient.message.qmessage import QMessage, MessageType, make_qmessage_from_proto
+from shapleqclient.message.api import put_msg
 
 
 class Producer(ClientBase):

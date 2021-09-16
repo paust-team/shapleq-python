@@ -1,6 +1,4 @@
-from typing import Iterable
-
-from proto import api_pb2, data_pb2
+from shapleqclient.proto import data_pb2, api_pb2
 
 MAGIC_NUM: int = 1101
 

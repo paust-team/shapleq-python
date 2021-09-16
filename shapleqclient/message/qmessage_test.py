@@ -1,8 +1,8 @@
 import unittest
-from message.qmessage import *
+from shapleqclient.message.qmessage import *
 from struct import pack
-from message.api import ack_msg
-from proto.api_pb2 import Ack, Ping
+from shapleqclient.message.api import ack_msg
+from shapleqclient.proto.api_pb2 import Ack, Ping
 
 
 class QMessageTest(unittest.TestCase):
