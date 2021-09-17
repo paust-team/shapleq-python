@@ -1,6 +1,7 @@
+from dataclasses import dataclass
 from struct import pack, unpack, calcsize
 from google.protobuf import message, any_pb2
-from exception import NotEnoughBufferError, InvalidChecksumError, MessageDecodeError
+from shapleqclient.common.exception import NotEnoughBufferError, InvalidChecksumError, MessageDecodeError
 from enum import Enum
 import zlib
 
@@ -10,36 +11,13 @@ class MessageType(Enum):
     STREAM = 1
 
 
+@dataclass
 class QHeader:
     HEADER_SIZE = calcsize('IIH')
-    _LEN_SIZE = calcsize('I')
-    _CHECKSUM_SIZE = calcsize('I')
-    _MSG_TYPE_SIZE = calcsize('H')
 
-    _LEN_START_IDX = 0
-    _LEN_END_IDX = _LEN_SIZE
-    _CHECKSUM_START_INDEX = _LEN_END_IDX
-    _CHECKSUM_END_INDEX = _CHECKSUM_START_INDEX + _CHECKSUM_SIZE
-    _MSG_TYPE_START_INDEX = _CHECKSUM_END_INDEX
-    _MSG_TYPE_END_INDEX = _MSG_TYPE_START_INDEX + _MSG_TYPE_SIZE
-
-    _len: int
-    _checksum: int
-    _msg_type: int
-
-    def __init__(self, data_length: int, checksum: int, msg_type: int):
-        self._len = data_length
-        self._checksum = checksum
-        self._msg_type = msg_type
-
-    def get_len(self) -> int:
-        return self._len
-
-    def get_checksum(self) -> int:
-        return self._checksum
-
-    def get_msg_type(self) -> int:
-        return self._msg_type
+    len: int
+    checksum: int
+    msg_type: int
 
 
 class QMessage:
@@ -52,19 +30,19 @@ class QMessage:
 
     def serialize(self) -> bytes:
         serialized = bytearray(
-            pack('!IIH', self._header.get_len(), self._header.get_checksum(), self._header.get_msg_type())) + self._data
+            pack('!IIH', self._header.len, self._header.checksum, self._header.msg_type)) + self._data
         return serialized
 
     def length(self) -> int:
-        return self._header.get_len()
+        return self._header.len
 
     def type(self) -> int:
-        return self._header.get_msg_type()
+        return self._header.msg_type
 
     def is_same_msg(self, msg: message.Message) -> bool:
         return msg.SerializeToString() == self._data.hex()
 
-    def unpack_to(self, msg: message.Message):
+    def unpack_to(self, msg: message.Message) -> message.Message:
         try:
             any_pb = any_pb2.Any()
             any_pb.ParseFromString(self._data)
@@ -72,8 +50,7 @@ class QMessage:
         except message.DecodeError as err:
             raise MessageDecodeError(msg=err)
 
-        if any_pb.Unpack(msg) is False:
-            raise MessageDecodeError(msg="cannot unpack to message")
+        return msg if any_pb.Unpack(msg) else None
 
 
 def make_qmessage_from_buffer(buf: bytes) -> QMessage:

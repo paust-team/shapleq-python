@@ -1,8 +1,8 @@
 import unittest
-from message.qmessage import *
+from shapleqclient.message.qmessage import *
 from struct import pack
-from message.api import ack_msg
-from proto.api_pb2 import Ack, Ping
+from shapleqclient.message.api import ack_msg
+from shapleqclient.proto.api_pb2 import Ack, Ping
 
 
 class QMessageTest(unittest.TestCase):
@@ -31,6 +31,4 @@ class QMessageTest(unittest.TestCase):
         self.assertEqual(expected.msg, actual.msg)
 
         fake = Ping()
-        actual_msg.unpack_to(fake)
-        with self.assertRaises(MessageDecodeError):
-            actual_msg.unpack_to(fake)
+        self.assertIsNone(actual_msg.unpack_to(fake))

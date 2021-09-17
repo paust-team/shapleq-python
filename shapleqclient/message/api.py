@@ -1,6 +1,4 @@
-from typing import Iterable
-
-from proto import api_pb2, data_pb2
+from shapleqclient.proto import data_pb2, api_pb2
 
 MAGIC_NUM: int = 1101
 
@@ -29,7 +27,7 @@ def create_topic_msg(topic_name: str, description: str, num_partitions: int, rep
 
     msg = api_pb2.CreateTopicRequest()
     msg.magic = MAGIC_NUM
-    msg.topic = topic
+    msg.topic.CopyFrom(topic)
 
     return msg
 
@@ -68,10 +66,12 @@ def put_msg(data: bytes) -> api_pb2.PutRequest:
     return msg
 
 
-def fetch_msg(start_offset: int) -> api_pb2.FetchRequest:
+def fetch_msg(start_offset: int, max_batch_size: int, flush_interval: int) -> api_pb2.FetchRequest:
     msg = api_pb2.FetchRequest()
     msg.magic = MAGIC_NUM
     msg.start_offset = start_offset
+    msg.max_batch_size = max_batch_size
+    msg.flush_interval = flush_interval
 
     return msg
 
@@ -85,7 +85,7 @@ def ack_msg(code: int, text: str) -> api_pb2.Ack:
     return msg
 
 
-def discover_broker(topic_name: str, session_type: data_pb2.SessionType) -> api_pb2.DiscoverBrokerRequest:
+def discover_broker_msg(topic_name: str, session_type: data_pb2.SessionType) -> api_pb2.DiscoverBrokerRequest:
     msg = api_pb2.DiscoverBrokerRequest()
     msg.magic = MAGIC_NUM
     msg.topic_name = topic_name
