@@ -9,6 +9,7 @@ from shapleqclient.admin import Admin
 from shapleqclient.base import QConfig
 from shapleqclient.consumer import Consumer
 from shapleqclient.producer import Producer
+import uuid
 
 
 class StreamTest(unittest.TestCase):
@@ -17,6 +18,7 @@ class StreamTest(unittest.TestCase):
     broker_address = "127.0.0.1"
     timeout = 3000
     config: QConfig
+    node_id: str
 
     logger = logging.getLogger()
     logger.level = logging.DEBUG
@@ -24,6 +26,7 @@ class StreamTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.config = QConfig(cls.broker_address, cls.broker_port, cls.timeout)
+        cls.node_id = str(uuid.uuid4()).replace('-', "", -1)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -72,15 +75,15 @@ class StreamTest(unittest.TestCase):
 
         def publish():
             time.sleep(1)
-            for record in expected_records:
-                producer.publish(record)
+            for seq, record in enumerate(expected_records):
+                producer.publish(record, seq, self.node_id)
 
         producer_thread = threading.Thread(target=publish)
         producer_thread.start()
 
         for fetched_data in consumer.subscribe(0):
-            for data in fetched_data.data:
-                actual_records.append(data)
+            for item in fetched_data.items:
+                actual_records.append(item.data)
             if len(actual_records) == len(expected_records):
                 break
 
@@ -110,15 +113,15 @@ class StreamTest(unittest.TestCase):
 
         def publish():
             time.sleep(1)
-            for record in expected_records:
-                producer.publish(record)
+            for seq, record in enumerate(expected_records):
+                producer.publish(record, seq, self.node_id)
 
         producer_thread = threading.Thread(target=publish)
         producer_thread.start()
 
         for fetched_data in consumer.subscribe(0, max_batch_size=3, flush_interval=200):
-            for data in fetched_data.data:
-                actual_records.append(data)
+            for item in fetched_data.items:
+                actual_records.append(item.data)
             if len(actual_records) == len(expected_records):
                 break
 
