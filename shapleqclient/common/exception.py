@@ -29,6 +29,11 @@ class TopicNotSetError(Exception):
         return "topic is not set"
 
 
+class InvalidNodeIdError(Exception):
+    def __str__(self):
+        return "invalid node id"
+
+
 class SocketClosedError(Exception):
     def __str__(self):
         return "socket is closed"

@@ -1,6 +1,6 @@
 import socket
 from shapleqclient.proto.data_pb2 import SessionType
-from shapleqclient.proto.api_pb2 import DiscoverBrokerResponse,  ConnectResponse
+from shapleqclient.proto.api_pb2 import DiscoverBrokerResponse, ConnectResponse, Ack
 from shapleqclient.common.exception import *
 from shapleqclient.message.qmessage import *
 from shapleqclient.message.api import discover_broker_msg, connect_msg
@@ -71,7 +71,8 @@ class ClientBase:
             try:
                 received = self._sock.recv(4 * 1024)
                 if not received:
-                    raise SocketReadError()
+                    self.close()
+                    raise SocketClosedError()
                 self.logger.info('read data successfully')
 
                 return make_qmessage_from_buffer(received)
@@ -79,7 +80,8 @@ class ClientBase:
                 continue
             except socket.error as msg:
                 self.logger.error(msg)
-                raise SocketReadError(msg)
+                self.close()
+                raise SocketReadError()
 
     def continuous_receive(self) -> Generator[QMessage, None, None]:
         msg_buf: bytearray
@@ -91,12 +93,16 @@ class ClientBase:
             try:
                 received = self._sock.recv(4 * 1024)
                 if not received:
-                    raise SocketReadError()
+                    self.close()
+                    raise SocketClosedError()
+            except socket.timeout:
+                continue
             except socket.error as msg:
                 if not self.is_connected():
-                    break
+                    return
                 self.logger.error(msg)
-                raise SocketReadError(msg)
+                self.close()
+                raise SocketReadError()
 
             self.logger.info('received data')
             msg_buf = bytearray(received)
@@ -121,11 +127,13 @@ class ClientBase:
         self._send_message(msg)
         received = self._read_message()
 
-        connect_response = ConnectResponse()
-        if received.unpack_to(connect_response) is None:
-            raise MessageDecodeError(msg="cannot unpack to `ConnectResponse`")
-
-        self.logger.info('stream initialized')
+        if received.unpack_to(ConnectResponse()) is not None:
+            self.logger.info('stream initialized')
+            return
+        elif (ack := msg.unpack_to(Ack())) is not None:
+            raise RequestFailedError(msg=ack.msg)
+        else:
+            raise InvalidMessageError()
 
     def connect(self, session_type: SessionType, topic: str):
         if len(topic) == 0:
@@ -150,6 +158,7 @@ class ClientBase:
         self._init_stream(session_type, topic)
 
     def close(self):
-        self.connected = False
-        self._sock.close()
-        self.logger.info('connection closed')
+        if self.connected:
+            self.connected = False
+            self._sock.close()
+            self.logger.info('connection closed')

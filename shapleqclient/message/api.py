@@ -58,10 +58,12 @@ def connect_msg(session_type: data_pb2.SessionType, topic_name: str) -> api_pb2.
     return msg
 
 
-def put_msg(data: bytes) -> api_pb2.PutRequest:
+def put_msg(data: bytes, seq_num: int, node_id: str) -> api_pb2.PutRequest:
     msg = api_pb2.PutRequest()
     msg.magic = MAGIC_NUM
     msg.data = data
+    msg.seq_num = seq_num
+    msg.node_id = node_id
 
     return msg
 

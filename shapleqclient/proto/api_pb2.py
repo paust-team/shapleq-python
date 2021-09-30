@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\tapi.proto\x12\rshapleq.proto\x1a\ndata.proto\"1\n\x10SetConfigRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\"]\n\x11SetConfigResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"3\n\x12\x41lterConfigRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\"_\n\x13\x41lterConfigResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"\"\n\x11ShowConfigRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\"^\n\x12ShowConfigResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"!\n\x10ListTopicRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\"]\n\x11ListTopicResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06topics\x18\x02 \x03(\t\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"9\n\x14\x44\x65scribeTopicRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ntopic_name\x18\x02 \x01(\t\"v\n\x15\x44\x65scribeTopicResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12#\n\x05topic\x18\x02 \x01(\x0b\x32\x14.shapleq.proto.Topic\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"H\n\x12\x43reateTopicRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12#\n\x05topic\x18\x02 \x01(\x0b\x32\x14.shapleq.proto.Topic\"O\n\x13\x43reateTopicResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"7\n\x12\x44\x65leteTopicRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ntopic_name\x18\x02 \x01(\t\"O\n\x13\x44\x65leteTopicResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"J\n\x16\x43reatePartitionRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ntopic_name\x18\x02 \x01(\t\x12\r\n\x05\x63ount\x18\x03 \x01(\r\"\x80\x01\n\x17\x43reatePartitionResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12+\n\tpartition\x18\x02 \x01(\x0b\x32\x18.shapleq.proto.Partition\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"L\n\x12\x43reateGroupRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ngroup_name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\"t\n\x13\x43reateGroupResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12#\n\x05group\x18\x02 \x01(\x0b\x32\x14.shapleq.proto.Group\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"\"\n\x11ListGroupsRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\"s\n\x12ListGroupsResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12#\n\x05group\x18\x02 \x03(\x0b\x32\x14.shapleq.proto.Group\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"3\n\x10JoinGroupRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x10\n\x08group_id\x18\x02 \x01(\x04\"M\n\x11JoinGroupResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"4\n\x11LeaveGroupRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x10\n\x08group_id\x18\x02 \x01(\x04\"N\n\x12LeaveGroupResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"5\n\x12\x44\x65leteGroupRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x10\n\x08group_id\x18\x02 \x01(\x04\"O\n\x13\x44\x65leteGroupResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"l\n\x15\x44iscoverBrokerRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ntopic_name\x18\x02 \x01(\t\x12\x30\n\x0csession_type\x18\x03 \x01(\x0e\x32\x1a.shapleq.proto.SessionType\"c\n\x16\x44iscoverBrokerResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\t\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"e\n\x0e\x43onnectRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x30\n\x0csession_type\x18\x02 \x01(\x0e\x32\x1a.shapleq.proto.SessionType\x12\x12\n\ntopic_name\x18\x03 \x01(\t\" \n\x0f\x43onnectResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\"6\n\x04Ping\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x65\x63ho\x18\x02 \x01(\t\x12\x11\n\tbroker_id\x18\x03 \x01(\x04\"P\n\x04Pong\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x65\x63ho\x18\x02 \x01(\t\x12\x16\n\x0eserver_version\x18\x03 \x01(\r\x12\x13\n\x0bserver_time\x18\x04 \x01(\x04\")\n\nPutRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\"I\n\x0bPutResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12+\n\tpartition\x18\x02 \x01(\x0b\x32\x18.shapleq.proto.Partition\"c\n\x0c\x46\x65tchRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x14\n\x0cstart_offset\x18\x02 \x01(\x04\x12\x16\n\x0emax_batch_size\x18\x03 \x01(\r\x12\x16\n\x0e\x66lush_interval\x18\x04 \x01(\r\"~\n\rFetchResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x12+\n\tpartition\x18\x03 \x01(\x0b\x32\x18.shapleq.proto.Partition\x12\x13\n\x0blast_offset\x18\x04 \x01(\x04\x12\x0e\n\x06offset\x18\x05 \x01(\x04\"I\n\x12\x42\x61tchFetchResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0f\n\x07\x62\x61tched\x18\x02 \x03(\x0c\x12\x13\n\x0blast_offset\x18\x04 \x01(\x04\"/\n\x03\x41\x63k\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x63ode\x18\x02 \x01(\r\x12\x0b\n\x03msg\x18\x03 \x01(\t\"\x16\n\x05\x43lose\x12\r\n\x05magic\x18\x01 \x01(\x05\x62\x06proto3'
+  serialized_pb=b'\n\tapi.proto\x12\rshapleq.proto\x1a\ndata.proto\"1\n\x10SetConfigRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\"]\n\x11SetConfigResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"3\n\x12\x41lterConfigRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\"_\n\x13\x41lterConfigResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"\"\n\x11ShowConfigRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\"^\n\x12ShowConfigResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06\x63onfig\x18\x02 \x01(\x0c\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"!\n\x10ListTopicRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\"]\n\x11ListTopicResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0e\n\x06topics\x18\x02 \x03(\t\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"9\n\x14\x44\x65scribeTopicRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ntopic_name\x18\x02 \x01(\t\"v\n\x15\x44\x65scribeTopicResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12#\n\x05topic\x18\x02 \x01(\x0b\x32\x14.shapleq.proto.Topic\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"H\n\x12\x43reateTopicRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12#\n\x05topic\x18\x02 \x01(\x0b\x32\x14.shapleq.proto.Topic\"O\n\x13\x43reateTopicResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"7\n\x12\x44\x65leteTopicRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ntopic_name\x18\x02 \x01(\t\"O\n\x13\x44\x65leteTopicResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"J\n\x16\x43reatePartitionRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ntopic_name\x18\x02 \x01(\t\x12\r\n\x05\x63ount\x18\x03 \x01(\r\"\x80\x01\n\x17\x43reatePartitionResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12+\n\tpartition\x18\x02 \x01(\x0b\x32\x18.shapleq.proto.Partition\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"L\n\x12\x43reateGroupRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ngroup_name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\"t\n\x13\x43reateGroupResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12#\n\x05group\x18\x02 \x01(\x0b\x32\x14.shapleq.proto.Group\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"\"\n\x11ListGroupsRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\"s\n\x12ListGroupsResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12#\n\x05group\x18\x02 \x03(\x0b\x32\x14.shapleq.proto.Group\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"3\n\x10JoinGroupRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x10\n\x08group_id\x18\x02 \x01(\x04\"M\n\x11JoinGroupResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"4\n\x11LeaveGroupRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x10\n\x08group_id\x18\x02 \x01(\x04\"N\n\x12LeaveGroupResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"5\n\x12\x44\x65leteGroupRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x10\n\x08group_id\x18\x02 \x01(\x04\"O\n\x13\x44\x65leteGroupResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\nerror_code\x18\x02 \x01(\x05\x12\x15\n\rerror_message\x18\x03 \x01(\t\"l\n\x15\x44iscoverBrokerRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x12\n\ntopic_name\x18\x02 \x01(\t\x12\x30\n\x0csession_type\x18\x03 \x01(\x0e\x32\x1a.shapleq.proto.SessionType\"c\n\x16\x44iscoverBrokerResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\t\x12\x12\n\nerror_code\x18\x03 \x01(\x05\x12\x15\n\rerror_message\x18\x04 \x01(\t\"e\n\x0e\x43onnectRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x30\n\x0csession_type\x18\x02 \x01(\x0e\x32\x1a.shapleq.proto.SessionType\x12\x12\n\ntopic_name\x18\x03 \x01(\t\" \n\x0f\x43onnectResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\"6\n\x04Ping\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x65\x63ho\x18\x02 \x01(\t\x12\x11\n\tbroker_id\x18\x03 \x01(\x04\"P\n\x04Pong\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x65\x63ho\x18\x02 \x01(\t\x12\x16\n\x0eserver_version\x18\x03 \x01(\r\x12\x13\n\x0bserver_time\x18\x04 \x01(\x04\"K\n\nPutRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x12\x0f\n\x07seq_num\x18\x03 \x01(\x04\x12\x0f\n\x07node_id\x18\x04 \x01(\t\"I\n\x0bPutResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12+\n\tpartition\x18\x02 \x01(\x0b\x32\x18.shapleq.proto.Partition\"c\n\x0c\x46\x65tchRequest\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x14\n\x0cstart_offset\x18\x02 \x01(\x04\x12\x16\n\x0emax_batch_size\x18\x03 \x01(\r\x12\x16\n\x0e\x66lush_interval\x18\x04 \x01(\r\"s\n\rFetchResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x12\x0e\n\x06offset\x18\x03 \x01(\x04\x12\x0f\n\x07seq_num\x18\x04 \x01(\x04\x12\x0f\n\x07node_id\x18\x05 \x01(\t\x12\x13\n\x0blast_offset\x18\x06 \x01(\x04\"\xc1\x01\n\x14\x42\x61tchedFetchResponse\x12\r\n\x05magic\x18\x01 \x01(\x05\x12:\n\x05items\x18\x02 \x03(\x0b\x32+.shapleq.proto.BatchedFetchResponse.Fetched\x12\x13\n\x0blast_offset\x18\x03 \x01(\x04\x1aI\n\x07\x46\x65tched\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\x0e\n\x06offset\x18\x02 \x01(\x04\x12\x0f\n\x07seq_num\x18\x03 \x01(\x04\x12\x0f\n\x07node_id\x18\x04 \x01(\t\"/\n\x03\x41\x63k\x12\r\n\x05magic\x18\x01 \x01(\x05\x12\x0c\n\x04\x63ode\x18\x02 \x01(\r\x12\x0b\n\x03msg\x18\x03 \x01(\t\"\x16\n\x05\x43lose\x12\r\n\x05magic\x18\x01 \x01(\x05\x62\x06proto3'
   ,
   dependencies=[data__pb2.DESCRIPTOR,])
 
@@ -1479,6 +1479,20 @@ _PUTREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='seq_num', full_name='shapleq.proto.PutRequest.seq_num', index=2,
+      number=3, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='node_id', full_name='shapleq.proto.PutRequest.node_id', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -1492,7 +1506,7 @@ _PUTREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=2514,
-  serialized_end=2555,
+  serialized_end=2589,
 )
 
 
@@ -1530,8 +1544,8 @@ _PUTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2557,
-  serialized_end=2630,
+  serialized_start=2591,
+  serialized_end=2664,
 )
 
 
@@ -1583,8 +1597,8 @@ _FETCHREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2632,
-  serialized_end=2731,
+  serialized_start=2666,
+  serialized_end=2765,
 )
 
 
@@ -1611,22 +1625,29 @@ _FETCHRESPONSE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='partition', full_name='shapleq.proto.FetchResponse.partition', index=2,
-      number=3, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='offset', full_name='shapleq.proto.FetchResponse.offset', index=2,
+      number=3, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='last_offset', full_name='shapleq.proto.FetchResponse.last_offset', index=3,
+      name='seq_num', full_name='shapleq.proto.FetchResponse.seq_num', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='offset', full_name='shapleq.proto.FetchResponse.offset', index=4,
-      number=5, type=4, cpp_type=4, label=1,
+      name='node_id', full_name='shapleq.proto.FetchResponse.node_id', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='last_offset', full_name='shapleq.proto.FetchResponse.last_offset', index=5,
+      number=6, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -1643,37 +1664,44 @@ _FETCHRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2733,
-  serialized_end=2859,
+  serialized_start=2767,
+  serialized_end=2882,
 )
 
 
-_BATCHFETCHRESPONSE = _descriptor.Descriptor(
-  name='BatchFetchResponse',
-  full_name='shapleq.proto.BatchFetchResponse',
+_BATCHEDFETCHRESPONSE_FETCHED = _descriptor.Descriptor(
+  name='Fetched',
+  full_name='shapleq.proto.BatchedFetchResponse.Fetched',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='magic', full_name='shapleq.proto.BatchFetchResponse.magic', index=0,
-      number=1, type=5, cpp_type=1, label=1,
+      name='data', full_name='shapleq.proto.BatchedFetchResponse.Fetched.data', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='offset', full_name='shapleq.proto.BatchedFetchResponse.Fetched.offset', index=1,
+      number=2, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='batched', full_name='shapleq.proto.BatchFetchResponse.batched', index=1,
-      number=2, type=12, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
+      name='seq_num', full_name='shapleq.proto.BatchedFetchResponse.Fetched.seq_num', index=2,
+      number=3, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='last_offset', full_name='shapleq.proto.BatchFetchResponse.last_offset', index=2,
-      number=4, type=4, cpp_type=4, label=1,
-      has_default_value=False, default_value=0,
+      name='node_id', full_name='shapleq.proto.BatchedFetchResponse.Fetched.node_id', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -1689,8 +1717,53 @@ _BATCHFETCHRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2861,
-  serialized_end=2934,
+  serialized_start=3005,
+  serialized_end=3078,
+)
+
+_BATCHEDFETCHRESPONSE = _descriptor.Descriptor(
+  name='BatchedFetchResponse',
+  full_name='shapleq.proto.BatchedFetchResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='magic', full_name='shapleq.proto.BatchedFetchResponse.magic', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='items', full_name='shapleq.proto.BatchedFetchResponse.items', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='last_offset', full_name='shapleq.proto.BatchedFetchResponse.last_offset', index=2,
+      number=3, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[_BATCHEDFETCHRESPONSE_FETCHED, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2885,
+  serialized_end=3078,
 )
 
 
@@ -1735,8 +1808,8 @@ _ACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2936,
-  serialized_end=2983,
+  serialized_start=3080,
+  serialized_end=3127,
 )
 
 
@@ -1767,8 +1840,8 @@ _CLOSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2985,
-  serialized_end=3007,
+  serialized_start=3129,
+  serialized_end=3151,
 )
 
 _DESCRIBETOPICRESPONSE.fields_by_name['topic'].message_type = data__pb2._TOPIC
@@ -1779,7 +1852,8 @@ _LISTGROUPSRESPONSE.fields_by_name['group'].message_type = data__pb2._GROUP
 _DISCOVERBROKERREQUEST.fields_by_name['session_type'].enum_type = data__pb2._SESSIONTYPE
 _CONNECTREQUEST.fields_by_name['session_type'].enum_type = data__pb2._SESSIONTYPE
 _PUTRESPONSE.fields_by_name['partition'].message_type = data__pb2._PARTITION
-_FETCHRESPONSE.fields_by_name['partition'].message_type = data__pb2._PARTITION
+_BATCHEDFETCHRESPONSE_FETCHED.containing_type = _BATCHEDFETCHRESPONSE
+_BATCHEDFETCHRESPONSE.fields_by_name['items'].message_type = _BATCHEDFETCHRESPONSE_FETCHED
 DESCRIPTOR.message_types_by_name['SetConfigRequest'] = _SETCONFIGREQUEST
 DESCRIPTOR.message_types_by_name['SetConfigResponse'] = _SETCONFIGRESPONSE
 DESCRIPTOR.message_types_by_name['AlterConfigRequest'] = _ALTERCONFIGREQUEST
@@ -1816,7 +1890,7 @@ DESCRIPTOR.message_types_by_name['PutRequest'] = _PUTREQUEST
 DESCRIPTOR.message_types_by_name['PutResponse'] = _PUTRESPONSE
 DESCRIPTOR.message_types_by_name['FetchRequest'] = _FETCHREQUEST
 DESCRIPTOR.message_types_by_name['FetchResponse'] = _FETCHRESPONSE
-DESCRIPTOR.message_types_by_name['BatchFetchResponse'] = _BATCHFETCHRESPONSE
+DESCRIPTOR.message_types_by_name['BatchedFetchResponse'] = _BATCHEDFETCHRESPONSE
 DESCRIPTOR.message_types_by_name['Ack'] = _ACK
 DESCRIPTOR.message_types_by_name['Close'] = _CLOSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -2073,12 +2147,20 @@ FetchResponse = _reflection.GeneratedProtocolMessageType('FetchResponse', (_mess
   })
 _sym_db.RegisterMessage(FetchResponse)
 
-BatchFetchResponse = _reflection.GeneratedProtocolMessageType('BatchFetchResponse', (_message.Message,), {
-  'DESCRIPTOR' : _BATCHFETCHRESPONSE,
+BatchedFetchResponse = _reflection.GeneratedProtocolMessageType('BatchedFetchResponse', (_message.Message,), {
+
+  'Fetched' : _reflection.GeneratedProtocolMessageType('Fetched', (_message.Message,), {
+    'DESCRIPTOR' : _BATCHEDFETCHRESPONSE_FETCHED,
+    '__module__' : 'api_pb2'
+    # @@protoc_insertion_point(class_scope:shapleq.proto.BatchedFetchResponse.Fetched)
+    })
+  ,
+  'DESCRIPTOR' : _BATCHEDFETCHRESPONSE,
   '__module__' : 'api_pb2'
-  # @@protoc_insertion_point(class_scope:shapleq.proto.BatchFetchResponse)
+  # @@protoc_insertion_point(class_scope:shapleq.proto.BatchedFetchResponse)
   })
-_sym_db.RegisterMessage(BatchFetchResponse)
+_sym_db.RegisterMessage(BatchedFetchResponse)
+_sym_db.RegisterMessage(BatchedFetchResponse.Fetched)
 
 Ack = _reflection.GeneratedProtocolMessageType('Ack', (_message.Message,), {
   'DESCRIPTOR' : _ACK,
