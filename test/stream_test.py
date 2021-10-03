@@ -10,6 +10,7 @@ from shapleqclient.base import QConfig
 from shapleqclient.consumer import Consumer
 from shapleqclient.producer import Producer
 import uuid
+import sys
 
 
 class StreamTest(unittest.TestCase):
@@ -20,13 +21,18 @@ class StreamTest(unittest.TestCase):
     config: QConfig
     node_id: str
 
-    logger = logging.getLogger()
+    logger = logging.getLogger("shapleq-python")
     logger.level = logging.DEBUG
 
     @classmethod
     def setUpClass(cls) -> None:
         cls.config = QConfig(cls.broker_address, cls.broker_port, cls.timeout)
         cls.node_id = str(uuid.uuid4()).replace('-', "", -1)
+        stream_handler = logging.StreamHandler(sys.stdout)
+        formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s [%(name)s]  %(message)s',
+                                      datefmt='%Y-%m-%d %H:%M:%S')
+        stream_handler.setFormatter(formatter)
+        cls.logger.addHandler(stream_handler)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -38,7 +44,7 @@ class StreamTest(unittest.TestCase):
         zk.close()
 
     def create_topic(self, topic: str):
-        admin = Admin(self.config)
+        admin = Admin(self.config, self.logger)
         admin.setup()
         admin.create_topic(topic, "meta", 1, 1)
         admin.close()
@@ -48,10 +54,10 @@ class StreamTest(unittest.TestCase):
 
         self.create_topic(topic)
 
-        producer = Producer(self.config, topic)
+        producer = Producer(self.config, topic, self.logger)
         producer.setup()
 
-        consumer = Consumer(self.config, topic)
+        consumer = Consumer(self.config, topic, self.logger)
         consumer.setup()
 
         self.assertTrue(producer.is_connected())
@@ -67,10 +73,10 @@ class StreamTest(unittest.TestCase):
 
         self.create_topic(topic)
 
-        producer = Producer(self.config, topic)
+        producer = Producer(self.config, topic, self.logger)
         producer.setup()
 
-        consumer = Consumer(self.config, topic)
+        consumer = Consumer(self.config, topic, self.logger)
         consumer.setup()
 
         def publish():
@@ -105,10 +111,10 @@ class StreamTest(unittest.TestCase):
 
         self.create_topic(topic)
 
-        producer = Producer(self.config, topic)
+        producer = Producer(self.config, topic, self.logger)
         producer.setup()
 
-        consumer = Consumer(self.config, topic)
+        consumer = Consumer(self.config, topic, self.logger)
         consumer.setup()
 
         def publish():

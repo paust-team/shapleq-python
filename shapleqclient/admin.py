@@ -1,3 +1,5 @@
+import logging
+
 from shapleqclient.base import ClientBase, QConfig
 from shapleqclient.message.qmessage import MessageType, make_qmessage_from_proto
 from shapleqclient.message.api import create_topic_msg, delete_topic_msg, describe_topic_msg, list_topic_msg, ping_msg
@@ -10,8 +12,8 @@ from typing import List
 
 class Admin(ClientBase):
 
-    def __init__(self, config: QConfig):
-        super().__init__("ShapleQ-AdminClient", config)
+    def __init__(self, config: QConfig, logger: logging.Logger):
+        super().__init__(config, logger)
 
     def setup(self):
         self._connect_to_broker(self.config.get_broker_address(), self.config.get_broker_port())

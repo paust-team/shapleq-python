@@ -37,9 +37,10 @@ class ClientBase:
     logger: logging.Logger
     _sock: socket.socket
 
-    def __init__(self, name: str, config: QConfig):
-        self.logger = logging.getLogger(name)
+    def __init__(self, config: QConfig, logger: logging.Logger):
         self.config = config
+        self.logger = logger
+
 
     def is_connected(self) -> bool:
         return self.connected

@@ -1,3 +1,4 @@
+import logging
 import threading
 from shapleqclient.base import ClientBase, QConfig
 from shapleqclient.common.exception import InvalidMessageError, SocketClosedError, RequestFailedError, InvalidNodeIdError
@@ -10,8 +11,8 @@ from shapleqclient.message.api import put_msg
 class Producer(ClientBase):
     topic: str
 
-    def __init__(self, config: QConfig, topic: str):
-        super().__init__("ShapleQ-Producer", config)
+    def __init__(self, config: QConfig, topic: str, logger: logging.Logger):
+        super().__init__(config, logger)
         self.topic = topic
 
     def setup(self):

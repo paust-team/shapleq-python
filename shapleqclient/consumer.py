@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 from shapleqclient.base import ClientBase, QConfig
 from shapleqclient.common.exception import InvalidMessageError, SocketClosedError, RequestFailedError
@@ -25,8 +26,8 @@ class FetchResult:
 class Consumer(ClientBase):
     topic: str
 
-    def __init__(self, config: QConfig, topic: str):
-        super().__init__("ShapleQ-Consumer", config)
+    def __init__(self, config: QConfig, topic: str, logger: logging.Logger):
+        super().__init__(config, logger)
         self.topic = topic
 
     def setup(self):
