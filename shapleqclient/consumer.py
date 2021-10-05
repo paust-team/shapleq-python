@@ -23,27 +23,33 @@ class FetchResult:
     last_offset: int
 
 
-class Consumer(ClientBase):
+class Consumer:
     topic: str
+    _client: ClientBase
+    logger: logging.Logger
 
     def __init__(self, config: QConfig, topic: str, logger: logging.Logger):
-        super().__init__(config, logger)
+        self._client = ClientBase(config, logger)
+        self.logger = logger
         self.topic = topic
 
     def setup(self):
-        self.connect(SessionType.SUBSCRIBER, self.topic)
+        self._client.connect(SessionType.SUBSCRIBER, self.topic)
 
-    def terminate(self):
-        self.close()
+    def is_connected(self) -> bool:
+        return self._client.is_connected()
+
+    def stop(self):
+        self._client.close()
 
     def subscribe(self, start_offset: int, max_batch_size: int = 1, flush_interval: int = 100) -> Generator[FetchResult, None, None]:
-        if not self.is_connected():
+        if not self._client.is_connected():
             raise SocketClosedError()
 
         try:
             msg = make_qmessage_from_proto(MessageType.STREAM, fetch_msg(start_offset, max_batch_size, flush_interval))
-            self._send_message(msg)
-            for received in self.continuous_receive():
+            self._client.send_message(msg)
+            for received in self._client.continuous_receive():
                 yield self._handle_message(received)
         except SocketClosedError:
             return

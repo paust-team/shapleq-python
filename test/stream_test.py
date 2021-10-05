@@ -47,7 +47,7 @@ class StreamTest(unittest.TestCase):
         admin = Admin(self.config, self.logger)
         admin.setup()
         admin.create_topic(topic, "meta", 1, 1)
-        admin.close()
+        admin.stop()
 
     def test_connect(self):
         topic = "test_topic_1"
@@ -63,8 +63,8 @@ class StreamTest(unittest.TestCase):
         self.assertTrue(producer.is_connected())
         self.assertTrue(consumer.is_connected())
 
-        consumer.close()
-        producer.close()
+        consumer.stop()
+        producer.stop()
 
     def test_pupsub(self):
         topic = "test_topic_2"
@@ -98,8 +98,8 @@ class StreamTest(unittest.TestCase):
         for index, data in enumerate(actual_records):
             self.assertEqual(data, expected_records[index])
 
-        producer.close()
-        consumer.close()
+        producer.stop()
+        consumer.stop()
 
     def test_batch_fetch(self):
         topic = "test_topic_3"
@@ -136,5 +136,5 @@ class StreamTest(unittest.TestCase):
         for index, data in enumerate(actual_records):
             self.assertEqual(data, expected_records[index])
 
-        producer.close()
-        consumer.close()
+        producer.stop()
+        consumer.stop()

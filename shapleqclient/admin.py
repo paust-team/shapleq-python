@@ -10,22 +10,25 @@ from shapleqclient.common.error import PQErrCode
 from typing import List
 
 
-class Admin(ClientBase):
+class Admin:
+    _client: ClientBase
+    logger: logging.Logger
 
     def __init__(self, config: QConfig, logger: logging.Logger):
-        super().__init__(config, logger)
+        self._client = ClientBase(config, logger)
+        self.logger = logger
 
     def setup(self):
-        self._connect_to_broker(self.config.get_broker_address(), self.config.get_broker_port())
+        self._client.connect_to_broker(self._client.config.get_broker_address(), self._client.config.get_broker_port())
 
-    def terminate(self):
-        self.close()
+    def stop(self):
+        self._client.close()
 
     def create_topic(self, topic_name: str, topic_meta: str, num_partitions: int, replication_factor: int):
         msg = make_qmessage_from_proto(MessageType.TRANSACTION,
                                        create_topic_msg(topic_name, topic_meta, num_partitions, replication_factor))
-        self._send_message(msg)
-        received = self._read_message()
+        self._client.send_message(msg)
+        received = self._client.read_message()
 
         response = CreateTopicResponse()
         if received.unpack_to(response) is None:
@@ -37,8 +40,8 @@ class Admin(ClientBase):
 
     def delete_topic(self, topic_name: str):
         msg = make_qmessage_from_proto(MessageType.TRANSACTION, delete_topic_msg(topic_name))
-        self._send_message(msg)
-        received = self._read_message()
+        self._client.send_message(msg)
+        received = self._client.read_message()
 
         response = DeleteTopicResponse()
         if received.unpack_to(response) is None:
@@ -50,8 +53,8 @@ class Admin(ClientBase):
 
     def describe_topic(self, topic_name: str) -> Topic:
         msg = make_qmessage_from_proto(MessageType.TRANSACTION, describe_topic_msg(topic_name))
-        self._send_message(msg)
-        received = self._read_message()
+        self._client.send_message(msg)
+        received = self._client.read_message()
 
         response = DescribeTopicResponse()
         if received.unpack_to(response) is None:
@@ -65,8 +68,8 @@ class Admin(ClientBase):
 
     def list_topic(self) -> List[Topic]:
         msg = make_qmessage_from_proto(MessageType.TRANSACTION, list_topic_msg())
-        self._send_message(msg)
-        received = self._read_message()
+        self._client.send_message(msg)
+        received = self._client.read_message()
 
         response = ListTopicResponse()
         if received.unpack_to(response) is None:
@@ -80,8 +83,8 @@ class Admin(ClientBase):
 
     def heartbeat(self, msg: str, broker_id: int) -> Pong:
         msg = make_qmessage_from_proto(MessageType.TRANSACTION, ping_msg(msg, broker_id))
-        self._send_message(msg)
-        received = self._read_message()
+        self._client.send_message(msg)
+        received = self._client.read_message()
 
         response = Pong()
         if received.unpack_to(response) is None:
