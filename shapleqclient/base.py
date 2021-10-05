@@ -37,14 +37,14 @@ class ClientBase:
     logger: logging.Logger
     _sock: socket.socket
 
-    def __init__(self, name: str, config: QConfig):
-        self.logger = logging.getLogger(name)
+    def __init__(self, config: QConfig, logger: logging.Logger):
         self.config = config
+        self.logger = logger
 
     def is_connected(self) -> bool:
         return self.connected
 
-    def _connect_to_broker(self, address: str, port: int):
+    def connect_to_broker(self, address: str, port: int):
         if self.connected:
             raise ClientConnectionError("already connected to broker")
 
@@ -58,12 +58,12 @@ class ClientBase:
         except socket.timeout:
             raise ClientConnectionError("cannot connect to broker : timeout")
 
-    def _send_message(self, msg: QMessage):
+    def send_message(self, msg: QMessage):
         if self._sock.send(msg.serialize()) <= 0:
             raise SocketWriteError()
         self.logger.info('sent data successfully')
 
-    def _read_message(self) -> QMessage:
+    def read_message(self) -> QMessage:
         while True:
             if not self.is_connected():
                 raise SocketClosedError()
@@ -124,8 +124,8 @@ class ClientBase:
             raise SocketClosedError()
 
         msg = make_qmessage_from_proto(MessageType.STREAM, connect_msg(session_type, topic))
-        self._send_message(msg)
-        received = self._read_message()
+        self.send_message(msg)
+        received = self.read_message()
 
         if received.unpack_to(ConnectResponse()) is not None:
             self.logger.info('stream initialized')
@@ -139,11 +139,11 @@ class ClientBase:
         if len(topic) == 0:
             raise TopicNotSetError()
 
-        self._connect_to_broker(self.config.get_broker_address(), self.config.get_broker_port())
+        self.connect_to_broker(self.config.get_broker_address(), self.config.get_broker_port())
         msg = make_qmessage_from_proto(MessageType.TRANSACTION, discover_broker_msg(topic, session_type))
 
-        self._send_message(msg)
-        received = self._read_message()
+        self.send_message(msg)
+        received = self.read_message()
 
         discover_broker_response = DiscoverBrokerResponse()
         if received.unpack_to(discover_broker_response) is None:
@@ -154,7 +154,7 @@ class ClientBase:
 
         self.close()
         new_addr = discover_broker_response.address.split(':')
-        self._connect_to_broker(new_addr[0], int(new_addr[1]))
+        self.connect_to_broker(new_addr[0], int(new_addr[1]))
         self._init_stream(session_type, topic)
 
     def close(self):
