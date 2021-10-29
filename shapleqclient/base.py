@@ -36,6 +36,7 @@ class ClientBase:
     config: QConfig
     logger: logging.Logger
     _sock: socket.socket
+    _RECEIVE_BUFFER_SIZE = 4 * 1024
 
     def __init__(self, config: QConfig, logger: logging.Logger):
         self.config = config
@@ -64,18 +65,21 @@ class ClientBase:
         self.logger.info('sent data successfully')
 
     def read_message(self) -> QMessage:
+        msg_buf: bytearray = bytearray(b'')
         while True:
             if not self.is_connected():
                 raise SocketClosedError()
 
             try:
-                received = self._sock.recv(4 * 1024)
+                received = self._sock.recv(self._RECEIVE_BUFFER_SIZE)
                 if not received:
                     self.close()
                     raise SocketClosedError()
                 self.logger.info('read data successfully')
 
-                return make_qmessage_from_buffer(received)
+                msg_buf += bytearray(received)
+
+                return make_qmessage_from_buffer(msg_buf)
             except NotEnoughBufferError:
                 continue
             except socket.error as msg:
@@ -84,14 +88,14 @@ class ClientBase:
                 raise SocketReadError()
 
     def continuous_receive(self) -> Generator[QMessage, None, None]:
-        msg_buf: bytearray
+        msg_buf: bytearray = bytearray(b'')
 
         while True:
             if not self.is_connected():
                 raise SocketClosedError()
 
             try:
-                received = self._sock.recv(4 * 1024)
+                received = self._sock.recv(self._RECEIVE_BUFFER_SIZE)
                 if not received:
                     self.close()
                     raise SocketClosedError()
@@ -105,7 +109,7 @@ class ClientBase:
                 raise SocketReadError()
 
             self.logger.info('received data')
-            msg_buf = bytearray(received)
+            msg_buf += bytearray(received)
 
             # unmarshal QMessages from received buffer
             while True:
