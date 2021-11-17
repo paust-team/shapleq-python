@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\ndata.proto\x12\rshapleq.proto\"?\n\x05Group\x12\x10\n\x08group_id\x18\x01 \x01(\x04\x12\x10\n\x08owner_id\x18\x02 \x01(\x04\x12\x12\n\ngroup_name\x18\x03 \x01(\t\"1\n\tPartition\x12\x14\n\x0cpartition_id\x18\x01 \x01(\x04\x12\x0e\n\x06offset\x18\x02 \x01(\x04\"^\n\x05Topic\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x16\n\x0enum_partitions\x18\x03 \x01(\r\x12\x1a\n\x12replication_factor\x18\x04 \x01(\r*7\n\x0bSessionType\x12\t\n\x05\x41\x44MIN\x10\x00\x12\r\n\tPUBLISHER\x10\x01\x12\x0e\n\nSUBSCRIBER\x10\x02\x62\x06proto3'
+  serialized_pb=b'\n\ndata.proto\x12\rshapleq.proto\"?\n\x05Group\x12\x10\n\x08group_id\x18\x01 \x01(\x04\x12\x10\n\x08owner_id\x18\x02 \x01(\x04\x12\x12\n\ngroup_name\x18\x03 \x01(\t\"1\n\tPartition\x12\x14\n\x0cpartition_id\x18\x01 \x01(\x04\x12\x0e\n\x06offset\x18\x02 \x01(\x04\"s\n\x05Topic\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x16\n\x0enum_partitions\x18\x03 \x01(\r\x12\x1a\n\x12replication_factor\x18\x04 \x01(\r\x12\x13\n\x0blast_offset\x18\x05 \x01(\x04*7\n\x0bSessionType\x12\t\n\x05\x41\x44MIN\x10\x00\x12\r\n\tPUBLISHER\x10\x01\x12\x0e\n\nSUBSCRIBER\x10\x02\x62\x06proto3'
 )
 
 _SESSIONTYPE = _descriptor.EnumDescriptor(
@@ -48,8 +48,8 @@ _SESSIONTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=241,
-  serialized_end=296,
+  serialized_start=262,
+  serialized_end=317,
 )
 _sym_db.RegisterEnumDescriptor(_SESSIONTYPE)
 
@@ -181,6 +181,13 @@ _TOPIC = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='last_offset', full_name='shapleq.proto.Topic.last_offset', index=4,
+      number=5, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -194,7 +201,7 @@ _TOPIC = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=145,
-  serialized_end=239,
+  serialized_end=260,
 )
 
 DESCRIPTOR.message_types_by_name['Group'] = _GROUP
