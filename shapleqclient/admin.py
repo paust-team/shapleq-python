@@ -19,7 +19,7 @@ class Admin:
         self.logger = logger
 
     def setup(self):
-        self._client.connect_to_broker(self._client.config.get_broker_address(), self._client.config.get_broker_port())
+        self._client.connect_to_broker(self._client.config.get_bootstrap_servers())
 
     def stop(self):
         self._client.close()

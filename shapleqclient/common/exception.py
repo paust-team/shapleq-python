@@ -69,3 +69,11 @@ class RequestFailedError(Exception):
 
     def __str__(self):
         return self.msg
+
+
+class PathNotExists(Exception):
+    def __init__(self, path: str):
+        self.path = path
+
+    def __str__(self):
+        return "zk path("+self.path+") not exists"

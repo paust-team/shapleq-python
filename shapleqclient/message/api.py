@@ -85,13 +85,3 @@ def ack_msg(code: int, text: str) -> api_pb2.Ack:
     msg.msg = text
 
     return msg
-
-
-def discover_broker_msg(topic_name: str, session_type: data_pb2.SessionType) -> api_pb2.DiscoverBrokerRequest:
-    msg = api_pb2.DiscoverBrokerRequest()
-    msg.magic = MAGIC_NUM
-    msg.topic_name = topic_name
-    msg.session_type = session_type
-
-    return msg
-

@@ -1,31 +1,28 @@
 import socket
-from shapleqclient.proto.data_pb2 import SessionType
-from shapleqclient.proto.api_pb2 import DiscoverBrokerResponse, ConnectResponse, Ack
+from shapleqclient.proto.data_pb2 import SessionType, PUBLISHER
+from shapleqclient.proto.api_pb2 import ConnectResponse, Ack
 from shapleqclient.common.exception import *
 from shapleqclient.message.qmessage import *
-from shapleqclient.message.api import discover_broker_msg, connect_msg
+from shapleqclient.message.api import connect_msg
 from shapleqclient.common.error import PQErrCode
 from typing import Generator
 import logging
+import os
+from shapleqclient.zk_client import ZKClient, ZKLocalConfig, ZKProductionConfig
+import random
 
 
 class QConfig:
     DEFAULT_TIMEOUT = 3000
-    DEFAULT_BROKER_HOST = "localhost"
-    DEFAULT_BROKER_PORT = 1101
+    DEFAULT_BOOTSTRAP_SERVER = "localhost:2181"
 
     # timeout should be milliseconds value
-    def __init__(self, broker_address: str = DEFAULT_BROKER_HOST, broker_port: int = DEFAULT_BROKER_PORT,
-                 timeout: int = DEFAULT_TIMEOUT):
-        self.broker_address = broker_address
-        self.broker_port = broker_port
+    def __init__(self, bootstrap_servers: str = DEFAULT_BOOTSTRAP_SERVER, timeout: int = DEFAULT_TIMEOUT):
+        self.bootstrap_servers = bootstrap_servers
         self.timeout = timeout
 
-    def get_broker_address(self) -> str:
-        return self.broker_address
-
-    def get_broker_port(self) -> int:
-        return self.broker_port
+    def get_bootstrap_servers(self) -> str:
+        return self.bootstrap_servers
 
     def get_timeout(self) -> int:
         return self.timeout
@@ -37,24 +34,32 @@ class ClientBase:
     logger: logging.Logger
     _sock: socket.socket
     _RECEIVE_BUFFER_SIZE = 4 * 1024
+    _zk_client: ZKClient
 
     def __init__(self, config: QConfig, logger: logging.Logger):
         self.config = config
         self.logger = logger
+        zk_config = None
+        if 'FLASK_ENV' in os.environ and os.environ['FLASK_ENV'] == 'production':
+            zk_config = ZKProductionConfig()
+        else:
+            zk_config = ZKLocalConfig()
+        self._zk_client = ZKClient(config=zk_config)
 
     def is_connected(self) -> bool:
         return self.connected
 
-    def connect_to_broker(self, address: str, port: int):
+    def connect_to_broker(self, host: str):
         if self.connected:
             raise ClientConnectionError("already connected to broker")
 
         self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._sock.settimeout(self.config.get_timeout() / 1000)
         try:
-            self._sock.connect((address, port))
+            addr = host.split(":")
+            self._sock.connect((addr[0], int(addr[1])))
             self.connected = True
-            self.logger.info('connected to broker target {}:{}'.format(address, port))
+            self.logger.info('connected to broker target {}'.format(host))
 
         except socket.timeout:
             raise ClientConnectionError("cannot connect to broker : timeout")
@@ -143,25 +148,25 @@ class ClientBase:
         if len(topic) == 0:
             raise TopicNotSetError()
 
-        self.connect_to_broker(self.config.get_broker_address(), self.config.get_broker_port())
-        msg = make_qmessage_from_proto(MessageType.TRANSACTION, discover_broker_msg(topic, session_type))
+        self._zk_client.connect()
+        topic_brokers = self._zk_client.get_topic_brokers(topic)
 
-        self.send_message(msg)
-        received = self.read_message()
+        if len(topic_brokers) > 0:
+            self.connect_to_broker(topic_brokers[0])
+        elif session_type == PUBLISHER:  # if publisher, pick random broker unless topic broker exists
+            brokers = self._zk_client.get_brokers()
+            print(brokers)
+            if len(brokers) == 0:
+                raise ClientConnectionError(msg="broker not exists")
+            else:
+                self.connect_to_broker(brokers[random.randrange(0,len(brokers))])
+        else:
+            raise ClientConnectionError(msg="broker not exists")
 
-        discover_broker_response = DiscoverBrokerResponse()
-        if received.unpack_to(discover_broker_response) is None:
-            raise MessageDecodeError(msg="cannot unpack to `DiscoverBrokerResponse`")
-
-        if discover_broker_response.error_code != PQErrCode.Success.value:
-            raise RequestFailedError(msg=discover_broker_response.error_message)
-
-        self.close()
-        new_addr = discover_broker_response.address.split(':')
-        self.connect_to_broker(new_addr[0], int(new_addr[1]))
         self._init_stream(session_type, topic)
 
     def close(self):
+        self._zk_client.close()
         if self.connected:
             self.connected = False
             self._sock.close()
