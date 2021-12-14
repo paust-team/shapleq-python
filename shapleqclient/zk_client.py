@@ -7,7 +7,7 @@ from shapleqclient.common.exception import PathNotExists
 @dataclasses.dataclass
 class ZKConfig(object):
     timeout: int = 3000
-    hosts: str = "127.0.0.1:2181"
+    quorum: str = "127.0.0.1:2181"
     base_path: str = ""
 
     def get_brokers_path(self):
@@ -38,7 +38,7 @@ class ZKClient(object):
 
     def __init__(self, config: ZKConfig):
         self.config = config
-        self._client = KazooClient(hosts=self.config.hosts)
+        self._client = KazooClient(hosts=self.config.quorum)
 
     def connect(self):
         self._client.start(timeout=self.config.timeout)

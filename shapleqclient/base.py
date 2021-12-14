@@ -14,15 +14,15 @@ import random
 
 class QConfig:
     DEFAULT_TIMEOUT = 3000
-    DEFAULT_BOOTSTRAP_SERVER = "localhost:2181"
+    DEFAULT_ZK_QUORUM = "localhost:2181"
 
     # timeout should be milliseconds value
-    def __init__(self, bootstrap_servers: str = DEFAULT_BOOTSTRAP_SERVER, timeout: int = DEFAULT_TIMEOUT):
-        self.bootstrap_servers = bootstrap_servers
+    def __init__(self, zk_quorum: str = DEFAULT_ZK_QUORUM, timeout: int = DEFAULT_TIMEOUT):
+        self.zk_quorum = zk_quorum
         self.timeout = timeout
 
-    def get_bootstrap_servers(self) -> str:
-        return self.bootstrap_servers
+    def get_zk_quorum(self) -> str:
+        return self.zk_quorum
 
     def get_timeout(self) -> int:
         return self.timeout
@@ -44,6 +44,7 @@ class ClientBase:
             zk_config = ZKProductionConfig()
         else:
             zk_config = ZKLocalConfig()
+        zk_config.hosts = config.get_zk_quorum()
         self._zk_client = ZKClient(config=zk_config)
 
     def is_connected(self) -> bool:

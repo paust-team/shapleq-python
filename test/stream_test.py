@@ -43,7 +43,7 @@ class StreamTest(unittest.TestCase):
         zk.close()
 
     def create_topic(self, topic: str):
-        admin = Admin(QConfig(self.broker_host, self.timeout), self.logger)
+        admin = Admin(self.broker_host, self.timeout, self.logger)
         admin.setup()
         admin.create_topic(topic, "meta", 1, 1)
         admin.stop()

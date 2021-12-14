@@ -14,12 +14,14 @@ class Admin:
     _client: ClientBase
     logger: logging.Logger
 
-    def __init__(self, config: QConfig, logger: logging.Logger):
+    def __init__(self, broker_address: str, timeout: int, logger: logging.Logger):
+        config = QConfig(timeout=timeout)
+        self._broker_address = broker_address
         self._client = ClientBase(config, logger)
         self.logger = logger
 
     def setup(self):
-        self._client.connect_to_broker(self._client.config.get_bootstrap_servers())
+        self._client.connect_to_broker(self._broker_address)
 
     def stop(self):
         self._client.close()
