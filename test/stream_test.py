@@ -15,8 +15,7 @@ import sys
 
 class StreamTest(unittest.TestCase):
     zk_host = "127.0.0.1:2181"
-    broker_port = 1101
-    broker_address = "127.0.0.1"
+    broker_host = "127.0.0.1:1101"
     timeout = 3000
     config: QConfig
     node_id: str
@@ -26,7 +25,7 @@ class StreamTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.config = QConfig(cls.broker_address, cls.broker_port, cls.timeout)
+        cls.config = QConfig(cls.zk_host, cls.timeout)
         cls.node_id = str(uuid.uuid4()).replace('-', "", -1)
         stream_handler = logging.StreamHandler(sys.stdout)
         formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s [%(name)s]  %(message)s',
@@ -44,7 +43,7 @@ class StreamTest(unittest.TestCase):
         zk.close()
 
     def create_topic(self, topic: str):
-        admin = Admin(self.config, self.logger)
+        admin = Admin(self.broker_host, self.timeout, self.logger)
         admin.setup()
         admin.create_topic(topic, "meta", 1, 1)
         admin.stop()
