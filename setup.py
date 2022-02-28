@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="shapleqclient",
-    version="0.0.5",
+    version="0.0.6",
     description="Python shapleqclient for ShapleQ",
     url="https://github.com/paust-team/shapleq-python.git",
     author="Elon Choi",

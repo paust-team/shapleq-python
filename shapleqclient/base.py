@@ -44,7 +44,7 @@ class ClientBase:
             zk_config = ZKProductionConfig()
         else:
             zk_config = ZKLocalConfig()
-        zk_config.hosts = config.get_zk_quorum()
+        zk_config.quorum = config.get_zk_quorum()
         self._zk_client = ZKClient(config=zk_config)
 
     def is_connected(self) -> bool:
